@@ -369,6 +369,15 @@ namespace ByteBank.Forum.Controllers
             return RedirectToAction("MinhaConta");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> DeslogarDeTodosOsLocais()
+        {
+            var usuarioId = HttpContext.User.Identity.GetUserId();
+            await UserManager.UpdateSecurityStampAsync(usuarioId);
+
+            return RedirectToAction("Index", "Home");
+        }
+
         private ActionResult SenhaOuUsuarioInvalidos()
         {
             ModelState.AddModelError("", "Credenciais inválidas!");
