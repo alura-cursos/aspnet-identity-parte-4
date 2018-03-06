@@ -205,6 +205,10 @@ namespace ByteBank.Forum.Controllers
                         }
 
                         return RedirectToAction("Index", "Home");
+
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("VerificacaoDoisFatores");
+
                     case SignInStatus.LockedOut:
                         var senhaCorreta = 
                             await UserManager.CheckPasswordAsync(
@@ -223,6 +227,32 @@ namespace ByteBank.Forum.Controllers
 
             // Algo de errado aconteceu
             return View(modelo);
+        }
+
+        public async Task<ActionResult> VerificacaoDoisFatores()
+        {
+            var resultado = await SignInManager.SendTwoFactorCodeAsync("SMS");
+
+            if (resultado)
+                return View();
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> VerificacaoDoisFatores(string token)
+        {
+            var resultado =  
+                await SignInManager.TwoFactorSignInAsync(
+                    "SMS",
+                    token,
+                    isPersistent: false,
+                    rememberBrowser: false);
+
+            if (resultado == SignInStatus.Success)
+                return RedirectToAction("Index", "Home");
+
+            return View("Error");
         }
 
         [HttpPost]
@@ -364,6 +394,8 @@ namespace ByteBank.Forum.Controllers
 
                 if (!usuario.PhoneNumberConfirmed)
                     await EnviarSmsDeConfirmacaoAsync(usuario);
+                else
+                    usuario.TwoFactorEnabled = modelo.HabilitarAutenticacaoDeDoisFatores;
 
                 var resultadoUpdate = await UserManager.UpdateAsync(usuario);
 

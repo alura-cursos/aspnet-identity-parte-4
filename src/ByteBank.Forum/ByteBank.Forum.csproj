@@ -266,6 +266,7 @@
     <Content Include="Views\Shared\EditorTemplates\UsuarioFuncaoViewModel.cshtml" />
     <Content Include="Views\Conta\MinhaConta.cshtml" />
     <Content Include="Views\Conta\VerificacaoCodigoCelular.cshtml" />
+    <Content Include="Views\Conta\VerificacaoDoisFatores.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
