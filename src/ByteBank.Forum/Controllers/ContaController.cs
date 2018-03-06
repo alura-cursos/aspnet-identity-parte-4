@@ -354,6 +354,61 @@ namespace ByteBank.Forum.Controllers
         [HttpPost]
         public async Task<ActionResult> MinhaConta(ContaMinhaContaViewModel modelo)
         {
+            if (ModelState.IsValid)
+            {
+                var usuarioId = HttpContext.User.Identity.GetUserId();
+                var usuario = await UserManager.FindByIdAsync(usuarioId);
+
+                usuario.NomeCompleto = modelo.NomeCompleto;
+                usuario.PhoneNumber = modelo.NumeroDeCelular;
+
+                if (!usuario.PhoneNumberConfirmed)
+                    await EnviarSmsDeConfirmacaoAsync(usuario);
+
+                var resultadoUpdate = await UserManager.UpdateAsync(usuario);
+
+                if (resultadoUpdate.Succeeded)
+                    return RedirectToAction("Index", "Home");
+
+                AdicionaErros(resultadoUpdate);
+            }
+            return View();
+        }
+
+        private async Task EnviarSmsDeConfirmacaoAsync(UsuarioAplicacao usuario)
+        {
+            var tokenDeConfirmacao = 
+                await UserManager.GenerateChangePhoneNumberTokenAsync(
+                    usuario.Id,
+                    usuario.PhoneNumber
+                );
+
+            await UserManager.SendSmsAsync(
+                usuario.Id,
+                $"Token de confirmacao: {tokenDeConfirmacao}");
+        }
+
+        public ActionResult VerificacaoCodigoCelular()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> VerificacaoCodigoCelular(string token)
+        {
+            var usuarioId = HttpContext.User.Identity.GetUserId();
+            var usuario = await UserManager.FindByIdAsync(usuarioId);
+
+            var resultado = 
+                await UserManager.ChangePhoneNumberAsync(
+                    usuarioId,
+                    usuario.PhoneNumber,
+                    token);
+
+            if (resultado.Succeeded)
+                return RedirectToAction("Index", "Home");
+
+            AdicionaErros(resultado);
             return View();
         }
 

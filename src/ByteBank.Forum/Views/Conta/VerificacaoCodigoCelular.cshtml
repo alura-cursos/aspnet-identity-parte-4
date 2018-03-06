@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "VerificacaoCodigoCelular";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Verificação Celular</h2>
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm())
+{
+
+    <label> Código de SMS: </label>
+    <input type="text" name="token" />
+
+    <input type="submit" value="Enviar!" />
+}
+
+
