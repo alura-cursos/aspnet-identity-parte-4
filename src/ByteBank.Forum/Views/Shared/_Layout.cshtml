@@ -35,7 +35,11 @@
 
                         }
 
-                        <li> <p class="navbar-text"> Olá, @User.Identity.GetUserName() </p> </li>
+                        <li>
+                            <p class="navbar-text">
+                                Olá, @Html.ActionLink(User.Identity.GetUserName(), "MinhaConta", "Conta")
+                            </p>
+                        </li>
                         <li> <a href="javascript:document.getElementById('formulario_logoff').submit()"> Logoff </a> </li>
                     }
                     else

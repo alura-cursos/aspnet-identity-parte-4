@@ -1,0 +1,41 @@
+﻿@model ByteBank.Forum.ViewModels.ContaMinhaContaViewModel
+
+@{
+    ViewBag.Title = "MinhaConta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Minha conta</h2>
+
+@using (Html.BeginForm())
+{
+
+    @Html.ValidationSummary()
+
+    @Html.LabelFor(modelo => modelo.NomeCompleto);
+    <br />
+    @Html.EditorFor(modelo => modelo.NomeCompleto)
+    <br />
+
+    @Html.LabelFor(modelo => modelo.NumeroDeCelular);
+    <br />
+    @Html.EditorFor(modelo => modelo.NumeroDeCelular)
+    <br />
+
+    if (Model.NumeroDeCelularConfirmado)
+    {
+        @Html.LabelFor(modelo => modelo.HabilitarAutenticacaoDeDoisFatores);
+        <br />
+        @Html.EditorFor(modelo => modelo.HabilitarAutenticacaoDeDoisFatores)
+        <br />
+    }
+    else
+    {
+        <p>
+            * Informe e confirme seu número de celular para habilitar
+            a autenticação com 2 fatores!
+        </p>
+    }
+
+    <input type="submit" value="Salvar" class="btn btn-default" />
+}
