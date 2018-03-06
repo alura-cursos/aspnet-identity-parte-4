@@ -211,6 +211,7 @@
     <Compile Include="ViewModels\ContaLoginViewModel.cs" />
     <Compile Include="ViewModels\ContaMinhaContaViewModel.cs" />
     <Compile Include="ViewModels\ContaRegistrarViewModel.cs" />
+    <Compile Include="ViewModels\ContaVerificacaoDoisFatoresViewModel.cs" />
     <Compile Include="ViewModels\TopicoCriarViewModel.cs" />
     <Compile Include="ViewModels\UsuarioEditarFuncoesViewModel.cs" />
     <Compile Include="ViewModels\UsuarioFuncaoViewModel.cs" />

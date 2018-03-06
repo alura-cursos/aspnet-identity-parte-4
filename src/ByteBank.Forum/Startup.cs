@@ -111,6 +111,9 @@ namespace ByteBank.Forum
                 TimeSpan.FromMinutes(5)
             );
 
+            builder.UseTwoFactorRememberBrowserCookie(
+                DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+
             builder.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
             {
                  ClientId = ConfigurationManager.AppSettings["google:client_id"],

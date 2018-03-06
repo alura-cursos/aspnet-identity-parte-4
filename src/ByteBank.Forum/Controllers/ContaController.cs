@@ -240,14 +240,14 @@ namespace ByteBank.Forum.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> VerificacaoDoisFatores(string token)
+        public async Task<ActionResult> VerificacaoDoisFatores(ContaVerificacaoDoisFatoresViewModel modelo)
         {
             var resultado =  
                 await SignInManager.TwoFactorSignInAsync(
                     "SMS",
-                    token,
-                    isPersistent: false,
-                    rememberBrowser: false);
+                    modelo.Token,
+                    isPersistent: modelo.ContinuarLogado,
+                    rememberBrowser: modelo.LembrarDesteComputador);
 
             if (resultado == SignInStatus.Success)
                 return RedirectToAction("Index", "Home");
@@ -358,6 +358,15 @@ namespace ByteBank.Forum.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult EsquecerNavegador()
+        {
+            AuthenticationManager.SignOut(
+                DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+            
+            return RedirectToAction("MinhaConta");
         }
 
         private ActionResult SenhaOuUsuarioInvalidos()
