@@ -1,0 +1,44 @@
+﻿@model ByteBank.Forum.ViewModels.UsuarioEditarFuncoesViewModel
+
+@{
+    ViewBag.Title = "EditarFuncoes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Funções do usuário @Html.DisplayFor(model => model.NomeCompleto)</h2>
+<h5>@Html.DisplayFor(model => model.UserName)</h5>
+<h5>@Html.DisplayFor(model => model.Email)</h5>
+<hr />
+
+@using (Html.BeginForm("EditarFuncoes", "Usuario", FormMethod.Post))
+{
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.Id)
+
+        <h4>Selecione as funções </h4>
+        <br />
+        <hr />
+
+        <table>
+            <tr>
+                <th>
+                    Selecionado
+                </th>
+                <th>
+                    Função
+                </th>
+            </tr>
+
+            @Html.EditorFor(modelo => modelo.Funcoes)
+
+        </table>
+        <br />
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
